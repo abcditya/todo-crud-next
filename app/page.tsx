@@ -1,35 +1,22 @@
-"use client";
+// app/page.tsx
+import { pool } from '../lib/db';
 
-import { useState } from "react";
-
-export default function Home() {
-  const [title, setTitle] = useState("");
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-
-    if (!title) return;
-
-    await fetch("/api/todos", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title }),
-    });
-
-    setTitle(""); // reset input
-  }
+export default async function Home() {
+  const { rows: todos } = await pool.query("SELECT * FROM todos ORDER BY id DESC");
 
   return (
-    <div>
+    <main>
       <h1>Todo CRUD</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Tulis todo..."
-        />
+      <form action="/api/todos" method="POST">
+        <input type="text" name="title" placeholder="Tambah todo..." />
         <button type="submit">Tambah</button>
       </form>
-    </div>
+
+      <ul>
+        {todos.map((todo: any) => (
+          <li key={todo.id}>{todo.title}</li>
+        ))}
+      </ul>
+    </main>
   );
 }
