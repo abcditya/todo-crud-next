@@ -25,7 +25,7 @@ export default async function Home() {
 
       {/* Daftar todo */}
       <ul>
-        {todos.map((todo: any) => (
+        {todos.map((todo: { id: number; title: string }) => (
           <li key={todo.id}>{todo.title}</li>
         ))}
       </ul>
