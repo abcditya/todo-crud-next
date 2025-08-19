@@ -14,7 +14,7 @@ export default async function Home() {
         <input
           type="text"
           name="title"
-          placeholder="Tambah todo..."
+          placeholder="Tambah Todo"
           required
           style={{ padding: "8px", width: "250px" }}
         />
